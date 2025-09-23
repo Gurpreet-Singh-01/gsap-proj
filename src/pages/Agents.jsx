@@ -27,30 +27,38 @@ const Agents = () => {
   gsap.registerPlugin(ScrollTrigger)
 
   useGSAP(() => {
-    gsap.to(imageDivRef.current, {
-      scrollTrigger: {
-        trigger: imageDivRef.current,
-        start: "top 25%",
-        end: "top -80%",
-        scrub: true,
-        pin: true,
-        onUpdate: (self) => {
-          let imageIndex;
-          if (self.progress < 1) {
-            imageIndex = Math.floor(self.progress * imgArr.length);
-          } else {
-            imageIndex = Math.floor(self.progress * imgArr.length) - 1;
+    gsap.delayedCall(2, () => {
+      gsap.to(imageDivRef.current, {
+        scrollTrigger: {
+          trigger: imageDivRef.current,
+          start: "top 25%",
+          end: "top -80%",
+          scrub: 1,
+          pin: true,
+          pinSpacing: true,
+          pinReparent: true,
+          pinType: "transform",
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            let imageIndex;
+            if (self.progress < 1) {
+              imageIndex = Math.floor(self.progress * imgArr.length);
+            } else {
+              imageIndex = Math.floor(self.progress * imgArr.length) - 1;
+            }
+            imageRef.current.src = imgArr[imageIndex]
           }
-          imageRef.current.src = imgArr[imageIndex]
         }
-      }
+      })
     })
   });
 
 
   return (
-    <div>
-      <div className='section-1' >
+    <div className='parent'>
+
+      <div id='page-1' className='py-1' >
         <div ref={imageDivRef} className='absolute overflow-hidden h-[20vw] w-[15vw] top-[25vh] rounded-md left-[30vw]'>
           <img ref={imageRef} className='h-full w-full object-cover'
             src="/images/agent-1.jpg" />
@@ -61,11 +69,12 @@ const Agents = () => {
               Douze</h1>
           </div>
           <div className='pl-[40%]' >
-            <p className='text-4xl'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Notre curiosité nourrit notre créativité. On reste humbles et on dit non aux gros egos, même le vôtre. Une marque est vivante. Elle a des valeurs, une personnalité, une histoire. Si on oublie ça, on peut faire de bons chiffres à court terme, mais on la tue à long terme. C’est pour ça qu’on s’engage à donner de la perspective, pour bâtir des marques influentes.</p>
+            <p className='text-4xl'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Notre curiosité nourrit notre créativité. On reste humbles et on dit non aux gros egos, même le vôtre. Une marque est vivante. Elle a des valeurs, une personnalité, une histoire. Si on oublie ça, on peut faire de bons chiffres à court terme, mais on la tue à long terme. C’est pour ça qu’on s’engage à donner de la perspective, pour bâtir des marques influentes.</p>
           </div>
         </div>
       </div>
-      <div className="section2 h-screen"></div>
+
+      <div id='page-2' className="h-screen"></div>
     </div>
   )
 }
